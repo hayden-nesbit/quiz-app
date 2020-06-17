@@ -37,36 +37,50 @@ const QuizForm = (props) => {
       <option value={value}>{item}</option>
     )
   })
+
+  let amounts = [];
+  for (let i = 1; i <= 50; i++) {
+    amounts.push(i)
+  }
+
+  let showAmounts = amounts.map((item) => {
+    return(
+      <option value={item}>{item}</option>
+    )
+  })
+
   return (
     <Form>
       <FormGroup>
         <Label for="exampleEmail">Number of Questions</Label>
-        <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
+        <Input onChange={(e) => props.setAmount(e.target.value)} type="select" name="select" id="exampleSelect">
+          {showAmounts}
+        </Input>
       </FormGroup>
       <FormGroup>
         <Label for="exampleSelect">Select Category:</Label>
         <Input onChange={(e) => props.setCategory(e.target.value)} type="select" name="select" id="exampleSelect">
-          <option value="0">Any</option>
+          <option value="0">Any Category</option>
           {showCategories}
         </Input>
       </FormGroup>
       <FormGroup>
         <Label for="exampleSelect">Select Difficulty:</Label>
         <Input onChange={(e) => props.setDifficulty(e.target.value)} type="select" name="select" id="exampleSelect">
-          <option value="0">Any</option>
-          {showCategories}
+        <option value="0">Any Difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
         </Input>
       </FormGroup>
       <FormGroup>
         <Label for="exampleSelect">Select Type:</Label>
         <Input onChange={(e) => props.setType(e.target.value)} type="select" name="select" id="exampleSelect">
-          <option value="0">Any</option>
-          {showCategories}
+          <option value="0">Any Type</option>
+          <option value="multiple">Multiple Choice</option>
+          <option value="boolean">True / False</option>
+          
         </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="exampleText">Text Area</Label>
-        <Input type="textarea" name="text" id="exampleText" />
       </FormGroup>
       <Button onClick={props.getQuestions}>Submit</Button>
     </Form>
