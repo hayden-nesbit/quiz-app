@@ -1,0 +1,42 @@
+[
+    {
+        "Categories": [
+            {
+                "category": "Any",
+                "value": 0
+            },
+            {
+                "category": "General Knowledge",
+                "value": 9
+            },
+            {
+                "category": "Books",
+                "value": 10
+            },
+            {
+                "category": "Film",
+                "value": 11
+            },
+            {
+                "category": "Music",
+                "value": 12
+            },
+            {
+                "category": "Musicals & Theatres",
+                "value": 13
+            },
+            {
+                "category": "Musicals & Theatres",
+                "value": 13
+            },
+        ]
+    },
+    {
+        "Difficulty": [
+            {
+                "difficulty": "Easy",
+                "value": "easy"
+            }
+        ]
+    }
+]
