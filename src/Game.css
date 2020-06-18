@@ -1,0 +1,10 @@
+.score {
+    width: 75px;
+    position: fixed;
+    z-index: 1;
+    top: 50px;
+    right: 0px;
+    background: rgb(52, 58, 64, 0.8);
+    overflow-x: hidden;
+    padding: 8px 0;
+  }
