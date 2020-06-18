@@ -3,17 +3,31 @@ import React, { useState } from 'react'
 function QuizQuestions(props) {
 
     const [choice, setChoice] = useState("")
+    const [index, setIndex] = useState(-1)
     const [option, setOption] = useState(-1)
+    const [submit, setSubmit] = useState(-1)
+    // const [background, setBackground] = useState("col-12")
 
-    console.log(option)
-
-    function handleChange(answer, jnd) {
+    function handleChange(answer, ind, jnd) {
         setChoice(answer)
+        setIndex(ind)
         setOption(jnd)
     }
 
-   function handleSubmit(ind) {
-        
+    function handleSubmit(ind) {
+
+
+        // let newCheck = [];
+        //     newCheck.push(id)
+
+        //     checkId.length > 0 ?
+        //         setCheckId(checkId.concat(newCheck))
+        //         :
+        //         setCheckId(newCheck)
+
+
+        let tmpQuiz = [...props.quiz]
+
         if (props.quiz[ind].correct_answer === choice) {
 
             let yNotes = ["Nice!", "Soo smart.", "Lil smartie pants!", "Brilliant.", "You're on a roll!", "Good work.", "Lucky guess."]
@@ -21,6 +35,7 @@ function QuizQuestions(props) {
 
             props.quiz[ind].status = "correct"
             props.quiz[ind].note = yNote
+            props.quiz[ind].your_answer = choice
 
             props.setScore(props.score + 1)
 
@@ -31,11 +46,17 @@ function QuizQuestions(props) {
 
             props.quiz[ind].status = "incorrect"
             props.quiz[ind].note = nNote
+            props.quiz[ind].your_answer = choice
+
         }
+
+        props.setQuiz(tmpQuiz)
     }
 
 
     let showQuiz = props.quiz.map((item, i) => {
+
+        let showAns = props.quiz[i].status === "incorrect" ? <h6 className="text-success">A: {props.quiz[i].correct_answer}</h6> : null
 
         return (
 
@@ -48,9 +69,9 @@ function QuizQuestions(props) {
                     <div className="row">
                         {item.incorrect_answers.map((answer, j) => {
                             return (
-                                <div className="col-12">
+                                <div className={props.quiz[i].status === "correct" && index === i && option === j ? "bg-success text-white col-12" : props.quiz[i].status === "incorrect" && index === i && option === j ? "bg-danger text-white col-12" : "col-12"}>
                                     <div key={j} className="form-check">
-                                        <input onChange={(e) => handleChange(e.target.value, j)} className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value={answer} />
+                                        <input onChange={(e) => handleChange(e.target.value, i, j)} className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value={answer} />
                                         <label className="form-check-label" for="exampleRadios2">
                                             {answer}
                                         </label>
@@ -63,9 +84,12 @@ function QuizQuestions(props) {
                 </div>
 
                 <div className="row">
-                    <div className="col-4 offset-4">
-                        {props.quiz[i].note ?
-                            <h4 className={props.quiz[i].status === "correct" ? "text-success" : "text-danger"}>{props.quiz[i].note}</h4>
+                    <div className="col-12 text-center">
+                        {props.quiz[i].status ?
+                            <>
+                                <h4 className={props.quiz[i].status === "correct" ? "text-success" : "text-danger"}>{props.quiz[i].note}</h4>
+                                {showAns}
+                            </>
                             :
                             <button onClick={() => handleSubmit(i)} className="btn btn-success btn-sm text-center">Answer</button>
                         }

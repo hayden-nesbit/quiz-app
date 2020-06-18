@@ -3,7 +3,7 @@ import axios from 'axios'
 import QuizForm from './QuizForm'
 import QuizQuestions from './QuizQuestions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSmileBeam } from '@fortawesome/free-solid-svg-icons'
+import { faSmileBeam, faUndoAlt } from '@fortawesome/free-solid-svg-icons'
 import './Game.css'
 
 
@@ -26,6 +26,7 @@ function Game() {
                 function getRandomInd(max) {
                     return Math.floor(Math.random() * Math.floor(max));
                 }
+
                 response.data.results.map((item) => {
                     let ind = item.type === "boolean" && item.correct_answer === "True" ? 0 : item.type === "boolean" && item.correct_answer === "False" ? 1 : getRandomInd(3)
                     return (
@@ -49,6 +50,11 @@ function Game() {
         <>
             <nav className="navbar navbar-light bg-dark sticky-top">
                 <span className="navbar-brand mb-0 h1 text-white"><FontAwesomeIcon className="text-warning mr-2" size="lg" icon={faSmileBeam} />Quizzie</span>
+                {game === true ?
+                    <span onClick={() => setGame(false)}><FontAwesomeIcon className="text-secondary" icon={faUndoAlt} /></span>
+                    :
+                    null
+                }
             </nav>
             <div className="container mt-4">
                 {game === false ?
@@ -65,10 +71,10 @@ function Game() {
                     />
                     :
                     <>
-                    <div className="score mt-4">
-                        <h6 className="mb-0 text-center text-white">Score:</h6>
-                        <h4 className="text-success mt-0 mb-0 text-center">{showScore}%</h4>
-                    </div>
+                        <div className="score mt-4">
+                            <h6 className="mb-0 text-center text-white">Score:</h6>
+                            <h4 className="text-success mt-0 mb-0 text-center">{showScore}%</h4>
+                        </div>
                         <QuizQuestions
                             quiz={quiz}
                             setQuiz={setQuiz}
