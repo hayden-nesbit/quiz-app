@@ -26,7 +26,7 @@ const QuizForm = (props) => {
     "Vehicles",
     "Comics",
     "Gadgets",
-    "Gadgets",
+    // "Gadgets",
     "Japanese Anime & Manga",
     "Cartoon & Animation",
   ]
@@ -50,8 +50,8 @@ const QuizForm = (props) => {
   })
 
   return (
-    <Form>
-      <FormGroup>
+    <Form className="text-white">
+      <FormGroup >
         <Label for="exampleEmail">Number of Questions</Label>
         <Input onChange={(e) => props.setAmount(e.target.value)} type="select" name="select" id="exampleSelect">
           {showAmounts}
@@ -82,7 +82,7 @@ const QuizForm = (props) => {
           
         </Input>
       </FormGroup>
-      <Button onClick={props.getQuestions}>Submit</Button>
+      <Button className="float-right" size="sm" color="warning" onClick={props.getQuestions}>Play</Button>
     </Form>
   );
 }

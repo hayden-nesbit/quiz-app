@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import QuizForm from './QuizForm'
 import QuizQuestions from './QuizQuestions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSmileBeam, faUndoAlt } from '@fortawesome/free-solid-svg-icons'
 import './Game.css'
+import GameResults from './GameResults'
+import Navbar from './Navbar'
 
 
 
@@ -18,10 +18,11 @@ function Game() {
     const [game, setGame] = useState(false)
     const [score, setScore] = useState(0)
 
+
     async function getQuestions() {
         await axios.get("https://opentdb.com/api.php?amount=" + amount + "&category=" + category + "&difficulty=" + difficulty + "&type=" + type)
             .then(response => {
-                console.log(response.data.results);
+                console.log(response.data.results)
 
                 function getRandomInd(max) {
                     return Math.floor(Math.random() * Math.floor(max));
@@ -44,18 +45,16 @@ function Game() {
         setGame(true)
     }
 
-    let showScore = ((score / amount) * 100).toFixed(0)
 
     return (
         <>
-            <nav className="navbar navbar-light bg-dark sticky-top">
-                <span className="navbar-brand mb-0 h1 text-white"><FontAwesomeIcon className="text-warning mr-2" size="lg" icon={faSmileBeam} />Quizzie</span>
-                {game === true ?
-                    <span onClick={() => setGame(false)}><FontAwesomeIcon className="text-secondary" icon={faUndoAlt} /></span>
-                    :
-                    null
-                }
-            </nav>
+            <Navbar 
+                setGame={setGame}
+                game={game}
+                amount={amount}
+                score={score}
+                setScore={setScore}
+            />
             <div className="container mt-4">
                 {game === false ?
                     <QuizForm
@@ -69,19 +68,24 @@ function Game() {
                         setType={setType}
                         getQuestions={getQuestions}
                     />
-                    :
-                    <>
-                        <div className="score mt-4">
-                            <h6 className="mb-0 text-center text-white">Score:</h6>
-                            <h4 className="text-success mt-0 mb-0 text-center">{showScore}%</h4>
-                        </div>
+                    : game === true ?
                         <QuizQuestions
                             quiz={quiz}
                             setQuiz={setQuiz}
                             score={score}
                             setScore={setScore}
+                            setGame={setGame}
                         />
-                    </>
+                        : game === "over" ?
+                            <GameResults 
+                                score={score}
+                                setScore={setScore}
+                                setGame={setGame}
+                                amount={amount}
+                                quiz={quiz}
+                            />
+                            :
+                            null
                 }
             </div>
         </>
